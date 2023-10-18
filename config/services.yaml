@@ -22,3 +22,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Arango\ArangoDatabase:
+        arguments:
+            $protocol: '%env(ARANGO_PROTOCOL)%'
+            $hostname: '%env(ARANGO_HOSTNAME)%'
+            $port: '%env(ARANGO_PORT)%'
+            $databaseName: '%env(ARANGO_DATABASE)%'
+            $username: '%env(ARANGO_USERNAME)%'
+            $password: '%env(ARANGO_PASSWORD)%'
