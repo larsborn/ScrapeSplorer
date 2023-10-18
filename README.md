@@ -30,4 +30,4 @@ Web app to visualize results from different scrapers.
 | Scraper        | Scraper Status | Web App Support |
 |----------------|----------------|-----------------|
 | zvg-portal.de  | Running        | Development     |
-| KVNO Arztsuche | Running        | -               |
+| KVNO Arztsuche | Testing        | -               |
