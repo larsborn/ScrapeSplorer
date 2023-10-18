@@ -11,16 +11,17 @@ Web app to visualize results from different scrapers.
 
 ## 📝 TODOs
 
-* integrate Bootstrap
-* List entries from ZvgScraper
+* Create a view for a given reference number, in particular to show context of canceled auctions
+* derived list: Zwangsversteigerung by clustering around reference number (Aktenzeichen)
 * Basic filtering and sorting
-* Create a view for a given `zvg_id`, in particular to show context of canceled auctions
 
 ## ✅ Done
 
-* Setup dev environment: dump remote database and restore it locally
+* List entries from ZvgScraper
+* integrate Bootstrap
 * Home page that shows scraper counts
-
+* Setup dev environment: dump remote database and restore it locally
+ 
 ## 🔄 Follow Up
 
 * `arangodump` does not support client side certificates: https://github.com/arangodb/arangodb/issues/19985

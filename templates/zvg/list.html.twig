@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+{% import 'macros.html.twig' as macro %}
+{% block body %}
+    <div class="row">
+        <div class="col-6">Scraped {{ count }} records already.</div>
+        <div class="col-6">
+            <div class="d-flex flex-row-reverse bd-highlight">
+                <div class="p-2">{{ macro.pagination(pageCount, currentPage) }}</div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ZVG Id</th>
+            <th scope="col">Address</th>
+            <th scope="col">Land Register</th>
+            <th scope="col">Location</th>
+            <th scope="col">Reference Number</th>
+            <th scope="col">Appointment</th>
+            <th scope="col">Open Market Value</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entry in entries %}
+            <tr>
+                <td>{{ entry.zvgId }}</td>
+                <td>{{ entry.strasse }}{% if entry.strasse %},{% endif%} {{ entry.plz }} {{ entry.ort }}</td>
+                <td>{{ entry.grundbuch }}</td>
+                <td>{{ entry.objektLage }}</td>
+                <td>{{ entry.aktenzeichen }}</td>
+                <td>{{ entry.termin|dateAllowEmpty }}</td>
+                <td>{{ entry.verkehrswertInCent|centsAsEuro }}</td>
+                <td>{{ entry.artDerVersteigerung }}</td>
+                <td>{{ entry.beschreibung }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

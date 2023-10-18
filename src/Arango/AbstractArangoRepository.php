@@ -73,7 +73,7 @@ abstract class AbstractArangoRepository
         );
     }
 
-    public function aql(string $query, array $bindVars): array
+    public function aql(string $query, array $bindVars = []): array
     {
         return array_map(
             fn (Document $document) => $this->constructEntity($document),
@@ -105,6 +105,17 @@ abstract class AbstractArangoRepository
     public function countAll(): int
     {
         return $this->rawAql(sprintf('RETURN LENGTH(%s)', $this->getCollectionName()), [])[0];
+    }
+
+    /**
+     * @return T[]
+     */
+    public function pagination(int $limit, int $offset): array
+    {
+        return $this->aql(
+            sprintf('FOR doc in %s LIMIT @offset, @limit RETURN doc', $this->getCollectionName()),
+            ['offset' => $offset, 'limit' => $limit],
+        );
     }
 
     public function countBy(string $filter, array $params): int
