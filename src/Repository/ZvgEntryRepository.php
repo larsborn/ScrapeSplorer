@@ -58,7 +58,8 @@ class ZvgEntryRepository extends AbstractArangoRepository
     public function findByZvgId(int $zvgId): array
     {
         return $this->aql(
-            strtr(<<<AQL
+            strtr(
+                <<<AQL
 FOR row IN zvg_entries
     FILTER row.zvg_id == @zvgId
     SORT
@@ -67,9 +68,25 @@ FOR row IN zvg_entries
         row.termin_as_date {ordering},
         row.key {ordering}
     RETURN row
-AQL, ['{ordering}' => 'DESC'])
+AQL,
+                ['{ordering}' => 'DESC']
+            )
             ,
             ['zvgId' => $zvgId]
         );
+    }
+
+    public function getNewest(): ?ZvgEntry
+    {
+        $results = $this->aql(
+            <<<AQL
+FOR row IN zvg_entries
+    SORT row.inserted_at DESC
+    LIMIT 1
+    RETURN row
+AQL
+        );
+
+        return count($results) > 0 ? $results[0] : null;
     }
 }

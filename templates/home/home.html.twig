@@ -6,6 +6,7 @@
             <th scope="col">Scraper</th>
             <th scope="col">Website</th>
             <th scope="col">Record Count</th>
+            <th scope="col">Newest Insert</th>
         </tr>
         </thead>
         <tbody>
@@ -13,11 +14,17 @@
             <td><a href="{{ path('app_zvg_list') }}">ZvgScraper</a></td>
             <td><a href="https://www.zvg-portal.de/">zvg-portal.de</a></td>
             <td>{{ zvg_entries_count }}</td>
+            <td>
+                <a href="{{ path('app_zvg_showentry', {key: zvg_entries_newest_key}) }}">
+                    {{ zvg_entries_newest_timestamp|datetimeAllowEmpty }}
+                </a>
+            </td>
         </tr>
         <tr>
             <td>KvnoArztsuche</td>
             <td><a href="https://arztsuche.kvno.de/">arztsuche.kvno.de</a></td>
             <td>{{ kvno_arztsuche_count }}</td>
+            <td>{{ kvno_arztsuche_newest_timestamp|datetimeAllowEmpty }}</td>
         </tr>
         </tbody>
     </table>

@@ -25,9 +25,16 @@ class HomeController extends AbstractController
     #[Route('/')]
     public function home(): Response
     {
+        $zvgEntry = $this->zvgEntryRepository->getNewest();
+        $kvnoArztsuche = $this->kvnoArztsucheRepository->getNewest();
+
         return $this->render('home/home.html.twig', [
             'zvg_entries_count' => $this->zvgEntryRepository->countAll(),
+            'zvg_entries_newest_timestamp' => $zvgEntry->getInsertedAt(),
+            'zvg_entries_newest_key' => $zvgEntry->getKey(),
             'kvno_arztsuche_count' => $this->kvnoArztsucheRepository->countAll(),
+            'kvno_arztsuche_newest_timestamp' => $kvnoArztsuche->getCreatedAt(),
+            'kvno_arztsuche_newest_key' => $kvnoArztsuche->getKey(),
         ]);
     }
 }
