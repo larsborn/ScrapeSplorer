@@ -10,6 +10,7 @@
         <thead>
         <tr>
             <th scope="col">Key</th>
+            <th scope="col">Date</th>
             <th scope="col">Last Update</th>
             <th scope="col">Inserted At</th>
         </tr>
@@ -18,6 +19,7 @@
         {% for entry in entries %}
         <tr>
             <td><a href="{{ path('app_zvg_showentry', {'key': entry.key}) }}">{{ entry.key }}</a></td>
+            <td>{{ entry.termin|date("Y-m-d") }}</td>
             <td>{{ entry.letzteAktualisierung|date("Y-m-d H:i:s") }}</td>
             <td>{{ entry.insertedAt|datetimeAllowEmpty }}</td>
         </tr>

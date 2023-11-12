@@ -102,9 +102,22 @@ abstract class AbstractArangoRepository
         return $ret;
     }
 
+    public function oneFromRawAql(string $query, array $bindVars = [])
+    {
+        $result = $this->rawAql($query, $bindVars);
+        if (count($result) === 0) {
+            throw new ArangoException(sprintf('Exactly one result expected, but none found: "%s" ', $query));
+        }
+        if (count($result) > 1) {
+            throw new ArangoException(sprintf('Exactly one result expected, but multiple found: "%s" ', $query));
+        }
+
+        return $result[0];
+    }
+
     public function countAll(): int
     {
-        return $this->rawAql(sprintf('RETURN LENGTH(%s)', $this->getCollectionName()), [])[0];
+        return $this->oneFromRawAql(sprintf('RETURN LENGTH(%s)', $this->getCollectionName()));
     }
 
     /**
@@ -122,7 +135,7 @@ abstract class AbstractArangoRepository
     {
         $collectionName = $this->getCollectionName();
 
-        return $this->rawAql(
+        return $this->oneFromRawAql(
             <<<AQL
 FOR doc in $collectionName
     $filter
@@ -131,6 +144,6 @@ FOR doc in $collectionName
 AQL
             ,
             $params,
-        )[0];
+        );
     }
 }

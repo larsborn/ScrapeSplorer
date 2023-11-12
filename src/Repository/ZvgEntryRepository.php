@@ -89,4 +89,16 @@ AQL
 
         return count($results) > 0 ? $results[0] : null;
     }
+
+    public function uniqueAktenzeichen(): int
+    {
+        return $this->oneFromRawAql(
+            <<<AQL
+FOR row IN zvg_entries
+    FILTER row.aktenzeichen != NULL
+    COLLECT WITH COUNT INTO cnt
+    RETURN cnt
+AQL
+        );
+    }
 }

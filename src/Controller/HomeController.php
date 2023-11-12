@@ -30,6 +30,7 @@ class HomeController extends AbstractController
 
         return $this->render('home/home.html.twig', [
             'zvg_entries_count' => $this->zvgEntryRepository->countAll(),
+            'zvg_aktenzeichen_count' => $this->zvgEntryRepository->uniqueAktenzeichen(),
             'zvg_entries_newest_timestamp' => $zvgEntry->getInsertedAt(),
             'zvg_entries_newest_key' => $zvgEntry->getKey(),
             'kvno_arztsuche_count' => $this->kvnoArztsucheRepository->countAll(),
