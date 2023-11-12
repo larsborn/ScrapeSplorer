@@ -25,10 +25,14 @@
         </tr>
         </thead>
         <tbody>
-        {% for entry in entries %}
+        {% for entryWithCounts in entriesWithCounts %}
+            {% set entry = entryWithCounts.entry %}
             <tr>
                 <td><a href="{{ path('app_zvg_showentry', {key: entry.key}) }}">{{ entry.key }}</a></td>
-                <td><a href="{{ path('app_zvg_show', {aktenzeichen: entry.aktenzeichen}) }}">{{ entry.aktenzeichen }}</a></td>
+                <td>
+                    <a href="{{ path('app_zvg_show', {aktenzeichen: entry.aktenzeichen}) }}">{{ entry.aktenzeichen }}</a>
+                    ({{ entryWithCounts.uniqueCountByAktenzeichen }})
+                </td>
                 <td>{% include 'zvg/standalone-address.html.twig' with {entry: entry} %}</td>
                 <td>{{ entry.grundbuch }}</td>
                 <td>{{ entry.objektLage }}</td>

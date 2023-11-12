@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\DTO\ZvgEntryWithUniqueCount;
+use App\Entity\ZvgEntry;
 use App\Repository\ZvgEntryRepository;
 use App\Service\ZvgComparatorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,8 +32,20 @@ class ZvgController extends AbstractController
         $page = (int)$request->query->get('page', '0');
         $totalCount = $this->zvgEntryRepository->countAll();
 
+        $entries = array_map(
+            fn (ZvgEntry $entry) => new ZvgEntryWithUniqueCount(
+                $entry,
+                count(
+                    $this->zvgComparatorService->uniquifySortedList(
+                        $this->zvgEntryRepository->findByAktenzeichen($entry->getAktenzeichen())
+                    )
+                )
+            ),
+            $this->zvgEntryRepository->pagination($itemsPerPage, $page * $itemsPerPage),
+        );
+
         return $this->render('zvg/list.html.twig', [
-            'entries' => $this->zvgEntryRepository->pagination($itemsPerPage, $page * $itemsPerPage),
+            'entriesWithCounts' => $entries,
             'count' => $totalCount,
             'currentPage' => $page,
             'pageCount' => ceil($totalCount / $itemsPerPage),
