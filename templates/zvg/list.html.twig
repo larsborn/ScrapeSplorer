@@ -13,6 +13,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th scope="col">Key</th>
             <th scope="col">ZVG Id</th>
             <th scope="col">Address</th>
             <th scope="col">Land Register</th>
@@ -27,8 +28,9 @@
         <tbody>
         {% for entry in entries %}
             <tr>
-                <td>{{ entry.zvgId }}</td>
-                <td>{{ entry.strasse }}{% if entry.strasse %},{% endif%} {{ entry.plz }} {{ entry.ort }}</td>
+                <td><a href="{{ path('app_zvg_showentry', {id: entry.key}) }}">{{ entry.key }}</a></td>
+                <td><a href="{{ path('app_zvg_show', {zvgId: entry.zvgId}) }}">{{ entry.zvgId }}</a></td>
+                <td>{% include 'zvg/standalone-address.html.twig' with {entry: entry} %}</td>
                 <td>{{ entry.grundbuch }}</td>
                 <td>{{ entry.objektLage }}</td>
                 <td>{{ entry.aktenzeichen }}</td>

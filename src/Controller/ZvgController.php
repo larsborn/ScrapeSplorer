@@ -33,4 +33,20 @@ class ZvgController extends AbstractController
             'pageCount' => ceil($totalCount / $itemsPerPage),
         ]);
     }
+
+    #[Route('/entry/{id}')]
+    public function showEntry(string $id): Response
+    {
+        $zvgEntry = $this->zvgEntryRepository->get($id);
+
+        return $this->render('zvg/show-entry.html.twig', ['entry' => $zvgEntry]);
+    }
+
+    #[Route('/zvg/{zvgId}')]
+    public function show(int $zvgId): Response
+    {
+        $zvgEntries = $this->zvgEntryRepository->findByZvgId($zvgId);
+
+        return $this->render('zvg/show.html.twig', ['entry' => $zvgEntries]);
+    }
 }

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <dl class="row">
+        <dt class="col-sm-3">Key</dt>
+        <dd class="col-sm-9">{{ entry.key }}</dd>
+
+        <dt class="col-sm-3">ZVG ID</dt>
+        <dd class="col-sm-9"><a href="{{ path('app_zvg_show', {zvgId: entry.zvgId}) }}">{{ entry.zvgId }}</a></dd>
+
+        <dt class="col-sm-3">Address</dt>
+        <dd class="col-sm-9">{% include 'zvg/standalone-address.html.twig' with {entry: entry} %}</dd>
+
+        <dt class="col-sm-3">Land Register</dt>
+        <dd class="col-sm-9">{{ entry.grundbuch }}</dd>
+
+        <dt class="col-sm-3">Location</dt>
+        <dd class="col-sm-9">{{ entry.objektLage }}</dd>
+
+        <dt class="col-sm-3">Reference Number</dt>
+        <dd class="col-sm-9">{{ entry.aktenzeichen }}</dd>
+
+        <dt class="col-sm-3">Appointment</dt>
+        <dd class="col-sm-9">{{ entry.termin|dateAllowEmpty }}</dd>
+
+        <dt class="col-sm-3">Open Market Value</dt>
+        <dd class="col-sm-9">{{ entry.verkehrswertInCent|centsAsEuro }}</dd>
+
+        <dt class="col-sm-3">Type</dt>
+        <dd class="col-sm-9">{{ entry.artDerVersteigerung }}</dd>
+
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">{{ entry.beschreibung }}</dd>
+    </dl>
+{% endblock %}

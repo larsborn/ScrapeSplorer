@@ -52,7 +52,7 @@ class ZvgEntryRepository extends AbstractArangoRepository
     /**
      * @return ZvgEntry[]
      */
-    public function findByZvgId(string $zvgId): array
+    public function findByZvgId(int $zvgId): array
     {
         return $this->aql('FOR row IN zvg_entries FILTER row.zvg_id == @zvgId RETURN row', ['zvgId' => $zvgId]);
     }
