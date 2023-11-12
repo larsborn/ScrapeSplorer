@@ -34,10 +34,10 @@ class ZvgController extends AbstractController
         ]);
     }
 
-    #[Route('/entry/{id}')]
-    public function showEntry(string $id): Response
+    #[Route('/entry/{key}')]
+    public function showEntry(string $key): Response
     {
-        $zvgEntry = $this->zvgEntryRepository->get($id);
+        $zvgEntry = $this->zvgEntryRepository->get($key);
 
         return $this->render('zvg/show-entry.html.twig', ['entry' => $zvgEntry]);
     }
@@ -47,6 +47,6 @@ class ZvgController extends AbstractController
     {
         $zvgEntries = $this->zvgEntryRepository->findByZvgId($zvgId);
 
-        return $this->render('zvg/show.html.twig', ['entry' => $zvgEntries]);
+        return $this->render('zvg/show.html.twig', ['zvgId' => $zvgId, 'entries' => $zvgEntries]);
     }
 }

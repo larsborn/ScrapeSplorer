@@ -1,5 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    TODO
+    <h2>{{ zvgId }}</h2>
+    <dl class="row">
+        <dt class="col-sm-3">Entries for this ZVG ID</dt>
+        <dd class="col-sm-9">{{ entries|length }}</dd>
+    </dl>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Key</th>
+            <th scope="col">Last Update</th>
+            <th scope="col">Inserted At</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entry in entries %}
+        <tr>
+            <td><a href="{{ path('app_zvg_showentry', {'key': entry.key}) }}">{{ entry.key }}</a></td>
+            <td>{{ entry.letzteAktualisierung|date("Y-m-d H:i:s") }}</td>
+            <td>{{ entry.insertedAt|datetimeAllowEmpty }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

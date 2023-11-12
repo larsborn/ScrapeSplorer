@@ -28,7 +28,7 @@
         <tbody>
         {% for entry in entries %}
             <tr>
-                <td><a href="{{ path('app_zvg_showentry', {id: entry.key}) }}">{{ entry.key }}</a></td>
+                <td><a href="{{ path('app_zvg_showentry', {key: entry.key}) }}">{{ entry.key }}</a></td>
                 <td><a href="{{ path('app_zvg_show', {zvgId: entry.zvgId}) }}">{{ entry.zvgId }}</a></td>
                 <td>{% include 'zvg/standalone-address.html.twig' with {entry: entry} %}</td>
                 <td>{{ entry.grundbuch }}</td>

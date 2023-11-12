@@ -45,9 +45,9 @@ abstract class AbstractArangoRepository
     /**
      * @return ?T
      */
-    public function get(string $id): ?object
+    public function get(string $key): ?object
     {
-        return $this->constructEntity($this->documentHandler->get($this->getCollectionName(), $id));
+        return $this->constructEntity($this->documentHandler->get($this->getCollectionName(), $key));
     }
 
     /**

@@ -23,6 +23,8 @@ class ZvgEntryRepository extends AbstractArangoRepository
         $adresse = InputHelper::nullableArray($document->get('adresse'));
         $termin = InputHelper::nullableString($document->get('termin_as_date'));
 
+        $insertedAt = InputHelper::nullableString($document->get('inserted_at'));
+
         return new ZvgEntry(
             $document->getId(),
             InputHelper::nullableInt($document->get('zvg_id')),
@@ -41,6 +43,7 @@ class ZvgEntryRepository extends AbstractArangoRepository
             InputHelper::nullableString($document->get('informationen_zum_glaeubiger')),
             InputHelper::string($document->get('land_short')),
             new DateTimeImmutable(InputHelper::string($document->get('letzte_aktualisierung'))),
+            $insertedAt === null ? null : new DateTimeImmutable($insertedAt),
             InputHelper::nullableString($document->get('ort_der_versteigerung')),
             InputHelper::nullableString($document->get('raw_entry_sha256')),
             InputHelper::nullableString($document->get('raw_list_sha256')),
@@ -54,6 +57,19 @@ class ZvgEntryRepository extends AbstractArangoRepository
      */
     public function findByZvgId(int $zvgId): array
     {
-        return $this->aql('FOR row IN zvg_entries FILTER row.zvg_id == @zvgId RETURN row', ['zvgId' => $zvgId]);
+        return $this->aql(
+            strtr(<<<AQL
+FOR row IN zvg_entries
+    FILTER row.zvg_id == @zvgId
+    SORT
+        row.inserted_at {ordering},
+        row.letzte_aktualisierung  {ordering},
+        row.termin_as_date {ordering},
+        row.key {ordering}
+    RETURN row
+AQL, ['{ordering}' => 'DESC'])
+            ,
+            ['zvgId' => $zvgId]
+        );
     }
 }

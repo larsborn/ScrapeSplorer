@@ -5,8 +5,11 @@
         <dt class="col-sm-3">Key</dt>
         <dd class="col-sm-9">{{ entry.key }}</dd>
 
-        <dt class="col-sm-3">ZVG ID</dt>
-        <dd class="col-sm-9"><a href="{{ path('app_zvg_show', {zvgId: entry.zvgId}) }}">{{ entry.zvgId }}</a></dd>
+        <dt class="col-sm-3">Inserted At</dt>
+        <dd class="col-sm-9">{{ entry.insertedAt|datetimeAllowEmpty }}</dd>
+
+        <dt class="col-sm-3">Last Update</dt>
+        <dd class="col-sm-9">{{ entry.letzteAktualisierung|date("Y-m-d H:i:s") }}</dd>
 
         <dt class="col-sm-3">Address</dt>
         <dd class="col-sm-9">{% include 'zvg/standalone-address.html.twig' with {entry: entry} %}</dd>

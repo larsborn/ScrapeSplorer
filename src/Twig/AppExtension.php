@@ -2,15 +2,9 @@
 
 namespace App\Twig;
 
-use App\Service\PathUtilsService;
-use App\Table\ColumnType\EuroType;
 use DateTimeImmutable;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Uid\Uuid;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Twig\TwigFunction;
-use Twig\TwigTest;
 
 class AppExtension extends AbstractExtension
 {
@@ -19,21 +13,32 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('centsAsEuro', [$this, 'centsAsEuro']),
             new TwigFilter('dateAllowEmpty', [$this, 'dateAllowEmpty']),
+            new TwigFilter('datetimeAllowEmpty', [$this, 'datetimeAllowEmpty']),
         ];
     }
 
     public function dateAllowEmpty(?DateTimeImmutable $data): string
     {
+        return $this->emptyFormat('Y-m-d', $data);
+    }
+
+    public function datetimeAllowEmpty(?DateTimeImmutable $data): string
+    {
+        return $this->emptyFormat('Y-m-d H:i:s', $data);
+    }
+
+    private function emptyFormat(string $format, ?DateTimeImmutable $data): string
+    {
         if ($data === null) {
             return '';
         }
 
-        return $data->format('d.m.Y');
+        return $data->format($format);
     }
 
     public function centsAsEuro(?int $number): string
     {
-        if (!$number) {
+        if (! $number) {
             return '';
         }
 

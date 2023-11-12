@@ -23,6 +23,7 @@ class ZvgEntry extends ArangoEntity
     private ?string $informationenZumGlaeubiger;
     private string $landShort;
     private DateTimeImmutable $letzteAktualisierung;
+    private ?DateTimeImmutable $insertedAt;
     private ?string $ortDderVersteigerung;
     private ?string $rawEntrySha256;
     private ?string $rawListSha256;
@@ -48,6 +49,7 @@ class ZvgEntry extends ArangoEntity
         ?string $informationenZumGlaeubiger,
         string $landShort,
         DateTimeImmutable $letzteAktualisierung,
+        ?DateTimeImmutable $insertedAt,
         ?string $ortDderVersteigerung,
         ?string $rawEntrySha256,
         ?string $rawListSha256,
@@ -71,6 +73,7 @@ class ZvgEntry extends ArangoEntity
         $this->informationenZumGlaeubiger = $informationenZumGlaeubiger;
         $this->landShort = $landShort;
         $this->letzteAktualisierung = $letzteAktualisierung;
+        $this->insertedAt = $insertedAt;
         $this->ortDderVersteigerung = $ortDderVersteigerung;
         $this->rawEntrySha256 = $rawEntrySha256;
         $this->rawListSha256 = $rawListSha256;
@@ -156,6 +159,11 @@ class ZvgEntry extends ArangoEntity
     public function getLetzteAktualisierung(): DateTimeImmutable
     {
         return $this->letzteAktualisierung;
+    }
+
+    public function getInsertedAt(): ?DateTimeImmutable
+    {
+        return $this->insertedAt;
     }
 
     public function getOrtDderVersteigerung(): ?string
