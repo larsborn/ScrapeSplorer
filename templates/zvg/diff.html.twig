@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Comparing: {{ left.key }} ↔ {{ right.key }}</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Field</th>
+            <th scope="col">Left Value</th>
+            <th scope="col">Right Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for fieldName in fieldNames %}
+            <tr>
+                <th scope="row">{{ fieldName }}</th>
+                <td>{{ attribute(left, fieldName) }}</td>
+                <td>{{ attribute(right, fieldName) }}</td>
+                <td>{{ attribute(left, fieldName) == attribute(right, fieldName)}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

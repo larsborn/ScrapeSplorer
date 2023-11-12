@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>{{ zvgId }}</h2>
+    <h2>{{ aktenzeichen }}</h2>
     <dl class="row">
         <dt class="col-sm-3">Entries for this ZVG ID</dt>
         <dd class="col-sm-9">{{ entries|length }}</dd>
@@ -13,16 +13,25 @@
             <th scope="col">Date</th>
             <th scope="col">Last Update</th>
             <th scope="col">Inserted At</th>
+            <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
         {% for entry in entries %}
-        <tr>
-            <td><a href="{{ path('app_zvg_showentry', {'key': entry.key}) }}">{{ entry.key }}</a></td>
-            <td>{{ entry.termin|date("Y-m-d") }}</td>
-            <td>{{ entry.letzteAktualisierung|date("Y-m-d H:i:s") }}</td>
-            <td>{{ entry.insertedAt|datetimeAllowEmpty }}</td>
-        </tr>
+            <tr>
+                <td><a href="{{ path('app_zvg_showentry', {'key': entry.key}) }}">{{ entry.key }}</a></td>
+                <td>{{ entry.termin|date("Y-m-d") }}</td>
+                <td>{{ entry.letzteAktualisierung|date("Y-m-d H:i:s") }}</td>
+                <td>{{ entry.insertedAt|datetimeAllowEmpty }}</td>
+                <td>
+                    {% if not loop.last %}
+                        <a href="{{ path('app_zvg_diff', {'zvgId': entry.zvgId, 'leftKey': entry.key, 'rightKey': entries[loop.index0 + 1].key}) }}"
+                           type="button" class="btn btn-primary">
+                            Compare with next line
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ZvgEntryRepository;
+use App\Service\ZvgComparatorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,11 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class ZvgController extends AbstractController
 {
     private ZvgEntryRepository $zvgEntryRepository;
+    private ZvgComparatorService $zvgComparatorService;
 
     public function __construct(
         ZvgEntryRepository $zvgEntryRepository,
+        ZvgComparatorService $zvgComparatorService,
     ) {
         $this->zvgEntryRepository = $zvgEntryRepository;
+        $this->zvgComparatorService = $zvgComparatorService;
     }
 
     #[Route('/')]
@@ -42,11 +46,43 @@ class ZvgController extends AbstractController
         return $this->render('zvg/show-entry.html.twig', ['entry' => $zvgEntry]);
     }
 
-    #[Route('/zvg/{zvgId}')]
-    public function show(int $zvgId): Response
+    #[Route('/history')]
+    public function show(Request $request): Response
     {
-        $zvgEntries = $this->zvgEntryRepository->findByZvgId($zvgId);
+        $aktenzeichen = $request->query->get('aktenzeichen');
+        $zvgEntries = $this->zvgComparatorService->uniquifySortedList(
+            $this->zvgEntryRepository->findByAktenzeichen($aktenzeichen, true)
+        );
 
-        return $this->render('zvg/show.html.twig', ['zvgId' => $zvgId, 'entries' => $zvgEntries]);
+        return $this->render('zvg/show.html.twig', ['aktenzeichen' => $aktenzeichen, 'entries' => $zvgEntries]);
+    }
+
+    #[Route('/zvg/{zvgId}/{leftKey}/{rightKey}')]
+    public function diff(int $zvgId, string $leftKey, string $rightKey): Response
+    {
+        $left = $this->zvgEntryRepository->get($leftKey);
+        $right = $this->zvgEntryRepository->get($rightKey);
+        $fieldNames = [
+            'strasse',
+            'plz',
+            'ort',
+            'amtsgericht',
+            'grundbuch',
+            'objektLage',
+            'aktenzeichen',
+            'verkehrswertInCent',
+            'artDerVersteigerung',
+            'beschreibung',
+            'informationenZumGlaeubiger',
+            'landShort',
+            'ortDerVersteigerung',
+            'rawEntrySha256',
+            'rawListSha256',
+        ];
+
+        return $this->render(
+            'zvg/diff.html.twig',
+            ['zvgId' => $zvgId, 'left' => $left, 'right' => $right, 'fieldNames' => $fieldNames]
+        );
     }
 }

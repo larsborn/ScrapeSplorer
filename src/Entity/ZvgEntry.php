@@ -24,7 +24,7 @@ class ZvgEntry extends ArangoEntity
     private string $landShort;
     private DateTimeImmutable $letzteAktualisierung;
     private ?DateTimeImmutable $insertedAt;
-    private ?string $ortDderVersteigerung;
+    private ?string $ortDerVersteigerung;
     private ?string $rawEntrySha256;
     private ?string $rawListSha256;
     /** @var string[] */
@@ -50,7 +50,7 @@ class ZvgEntry extends ArangoEntity
         string $landShort,
         DateTimeImmutable $letzteAktualisierung,
         ?DateTimeImmutable $insertedAt,
-        ?string $ortDderVersteigerung,
+        ?string $ortDerVersteigerung,
         ?string $rawEntrySha256,
         ?string $rawListSha256,
         array $urls,
@@ -74,7 +74,7 @@ class ZvgEntry extends ArangoEntity
         $this->landShort = $landShort;
         $this->letzteAktualisierung = $letzteAktualisierung;
         $this->insertedAt = $insertedAt;
-        $this->ortDderVersteigerung = $ortDderVersteigerung;
+        $this->ortDerVersteigerung = $ortDerVersteigerung;
         $this->rawEntrySha256 = $rawEntrySha256;
         $this->rawListSha256 = $rawListSha256;
         $this->urls = $urls;
@@ -166,9 +166,9 @@ class ZvgEntry extends ArangoEntity
         return $this->insertedAt;
     }
 
-    public function getOrtDderVersteigerung(): ?string
+    public function getOrtDerVersteigerung(): ?string
     {
-        return $this->ortDderVersteigerung;
+        return $this->ortDerVersteigerung;
     }
 
     public function getRawEntrySha256(): ?string

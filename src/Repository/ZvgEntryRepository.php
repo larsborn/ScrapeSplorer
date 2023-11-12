@@ -55,13 +55,13 @@ class ZvgEntryRepository extends AbstractArangoRepository
     /**
      * @return ZvgEntry[]
      */
-    public function findByZvgId(int $zvgId): array
+    public function findByAktenzeichen(string $aktenzeichen, bool $asc = false): array
     {
         return $this->aql(
             strtr(
                 <<<AQL
 FOR row IN zvg_entries
-    FILTER row.zvg_id == @zvgId
+    FILTER row.aktenzeichen == @aktenzeichen
     SORT
         row.inserted_at {ordering},
         row.letzte_aktualisierung  {ordering},
@@ -69,10 +69,10 @@ FOR row IN zvg_entries
         row.key {ordering}
     RETURN row
 AQL,
-                ['{ordering}' => 'DESC']
+                ['{ordering}' => $asc ? 'ASC' : 'DESC']
             )
             ,
-            ['zvgId' => $zvgId]
+            ['aktenzeichen' => $aktenzeichen]
         );
     }
 
